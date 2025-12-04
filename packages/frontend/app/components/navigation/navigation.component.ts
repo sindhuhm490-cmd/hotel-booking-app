@@ -15,6 +15,7 @@ import { SnackbarService } from "../../services/snackbar.service";
 })
 export class NavigationComponent implements OnInit {
   isLoggedIn = false;
+  isAdmin = false;
 
   constructor(
     private router: Router,
@@ -27,6 +28,7 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
     this.sessionService.isAuthenticated$.subscribe(isAuth => {
       this.isLoggedIn = isAuth;
+      this.isAdmin = this.sessionService.isAdmin();
       this.cdr.detectChanges();
     });
   }

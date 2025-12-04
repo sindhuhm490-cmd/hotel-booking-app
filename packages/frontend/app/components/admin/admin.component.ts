@@ -43,12 +43,23 @@ export class AdminComponent implements OnInit {
 
   createHotel(): void {
     if (this.hotelForm.valid) {
-      this.hotelService.addHotel(this.hotelForm.value).subscribe(() => {
-        this.addHotel = false;
-        this.getHotels();
+      console.log('Creating hotel with data:', this.hotelForm.value);
+      this.hotelService.addHotel(this.hotelForm.value).subscribe({
+        next: (response) => {
+          console.log('Hotel created successfully:', response);
+          this.addHotel = false;
+          this.hotelForm.reset();
+          this.getHotels();
+        },
+        error: (error) => {
+          console.error('Error creating hotel:', error);
+          alert('Failed to create hotel: ' + (error.error?.message || error.message));
+        }
       });
     } else {
+      console.log('Form is invalid:', this.hotelForm.errors);
       this.hotelForm.markAllAsTouched();
+      alert('Please fill all required fields correctly');
     }
   }
 

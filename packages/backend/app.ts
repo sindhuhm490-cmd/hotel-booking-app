@@ -16,10 +16,8 @@ const app = express();
 
 app.use(
   cors({
-    optionsSuccessStatus: 204,
     origin: "http://localhost:4200",
-    allowedHeaders: "Content-Type,Authorization",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    credentials: true,
   })
 );
 

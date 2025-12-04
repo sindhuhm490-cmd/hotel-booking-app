@@ -4,8 +4,8 @@
   "description": "Using MEAN stack to implement a simple hotel booking application where user can search hotels in database and book them.",
   "scripts": {
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "start:backend": "cd packages/backend && node src/app.js",
-    "start:frontend": "cd packages/frontend && live-server"
+    "start:backend": "cd packages/backend && yarn start",
+    "start:frontend": "cd packages/frontend && yarn start"
   },
   "keywords": [
     "Node 22",
