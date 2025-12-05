@@ -15,7 +15,7 @@ router.get("/", authMiddleware, async (req: Request, res: Response, next: NextFu
 
 router.get("/search", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { page = 1, limit = 10, query } = req.body;
+    const { page = 1, limit = 10, query } = req.query;
     const parsedPage = parseInt(page as string);
     const parsedLimit = parseInt(limit as string);
 
@@ -23,7 +23,14 @@ router.get("/search", authMiddleware, async (req: Request, res: Response, next: 
       return next(new Error("Invalid query parameter"));
     }
 
-    const hotels = await Hotel.find({ name: new RegExp(query as string, "i") })
+    const hotels = await Hotel.find({ 
+      $or: [
+        { name: new RegExp(query as string, "i") },
+        { city: new RegExp(query as string, "i") },
+        { state: new RegExp(query as string, "i") },
+        { address: new RegExp(query as string, "i") }
+      ]
+    })
       .limit(parsedLimit)
       .skip((parsedPage - 1) * parsedLimit);
 

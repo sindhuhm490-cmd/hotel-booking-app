@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Replace with your email
-const EMAIL_TO_MAKE_ADMIN = 'john@example.com';
+const EMAIL_TO_MAKE_ADMIN = 'newadmin@example.com';
 
 mongoose.connect('mongodb://localhost:27017/hotel-booking')
   .then(async () => {

@@ -3,6 +3,7 @@
     <a href="/" class="text-white text-lg font-bold">Hotel Booking</a>
     <div>
       <a routerLink="/" class="text-white px-4">Home</a>
+      <a routerLink="/about" class="text-white px-4">About</a>
       <a *ngIf="isLoggedIn && isAdmin" routerLink="/admin" class="text-white px-4">Admin Dashboard</a>
       <a *ngIf="isLoggedIn" routerLink="/profile" class="text-white px-4">Profile</a>
       <a *ngIf="!isLoggedIn" routerLink="/login" class="text-white px-4">Login</a>

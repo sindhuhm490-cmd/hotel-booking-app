@@ -40,6 +40,32 @@ router.get("/users", authMiddleware, adminMiddleware, async (req: Request, res: 
   }
 });
 
+router.put("/users/:id/toggle-admin", authMiddleware, adminMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await User.findById(req.params.id);
+    
+    if (!user) {
+      return next(new Error("User not found"));
+    }
+
+    user.isAdmin = !user.isAdmin;
+    await user.save();
+
+    res.json({ 
+      message: `User ${user.isAdmin ? 'promoted to' : 'demoted from'} admin`,
+      user: {
+        id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        isAdmin: user.isAdmin
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.delete("/users/:id", authMiddleware, adminMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);

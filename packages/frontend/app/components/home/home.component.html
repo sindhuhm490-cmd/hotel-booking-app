@@ -6,6 +6,7 @@
         <h1 class="text-4xl font-bold mb-4">Welcome to Your App</h1>
         <p class="mb-8">Your app description goes here. Explore the features and enjoy!</p>
         <div>
+          <a routerLink="/about" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 mr-4">Learn More</a>
           <a *ngIf="!isLoggedIn" routerLink="/login"
             class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign In</a>
           <a *ngIf="!isLoggedIn" routerLink="/register"

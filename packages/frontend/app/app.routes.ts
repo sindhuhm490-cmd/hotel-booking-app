@@ -7,11 +7,13 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { BookingComponent } from "./components/booking/booking.component";
+import { AboutComponent } from "./components/about/about.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
+  { path: "about", component: AboutComponent },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "admin", component: AdminComponent, canActivate: [AdminGuard] },

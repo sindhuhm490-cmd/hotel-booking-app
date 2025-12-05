@@ -18,4 +18,8 @@ export class UserService {
   deleteUser(userId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${userId}`);
   }
+
+  toggleAdminStatus(userId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${userId}/toggle-admin`, {});
+  }
 }

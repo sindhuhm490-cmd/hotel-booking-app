@@ -68,6 +68,22 @@ export class AdminComponent implements OnInit {
   }
 
   deleteUser(userId: string): void {
-    this.userService.deleteUser(userId).subscribe(() => this.getUsers());
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(userId).subscribe(() => this.getUsers());
+    }
+  }
+
+  toggleAdminStatus(userId: string): void {
+    this.userService.toggleAdminStatus(userId).subscribe({
+      next: (response) => {
+        console.log(response.message);
+        alert(response.message);
+        this.getUsers(); // Refresh the user list
+      },
+      error: (error) => {
+        console.error('Error toggling admin status:', error);
+        alert('Failed to update user status');
+      }
+    });
   }
 }

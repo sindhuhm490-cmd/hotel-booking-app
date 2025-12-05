@@ -40,7 +40,7 @@ export class BookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.hotelId = this.route.snapshot.paramMap.get("hotelId");
+    this.hotelId = this.route.snapshot.paramMap.get("id");
     if (this.hotelId) {
       this.loadHotelDetails(this.hotelId);
     }
@@ -52,8 +52,8 @@ export class BookingComponent implements OnInit {
       checkInDate: ["", Validators.required],
       checkOutDate: ["", Validators.required],
       creditCardName: ["", Validators.required],
-      expiryYear: [this.currentYear, Validators.required],
-      expiryMonth: [this.currentMonth, Validators.required],
+      year: [this.currentYear, Validators.required],
+      month: [this.currentMonth, Validators.required],
       securityCode: ["", [Validators.required, Validators.pattern(/^\d{3}$/)]],
       creditCard: ["", [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.minLength(15), Validators.maxLength(19)]],
     });
@@ -67,14 +67,26 @@ export class BookingComponent implements OnInit {
 
   bookHotel(): void {
     if (this.paymentForm.valid) {
+      const formValue = this.paymentForm.value;
       const bookingData = {
-        ...this.paymentForm.value,
+        ...formValue,
+        roomType: typeof formValue.roomType === 'object' ? `${formValue.roomType.name} - ${formValue.roomType.type}` : formValue.roomType,
         hotel: this.hotel,
       };
-      this.bookingService.createBooking(bookingData).subscribe(() => {
-        this.confirmBooking = true;
-        this.booking = bookingData;
+      console.log('Creating booking with data:', bookingData);
+      this.bookingService.createBooking(bookingData).subscribe({
+        next: (response) => {
+          console.log('Booking created successfully:', response);
+          alert('Booking confirmed successfully!');
+          this.router.navigate(['/profile']);
+        },
+        error: (error) => {
+          console.error('Error creating booking:', error);
+          alert('Failed to create booking: ' + (error.error?.message || error.message));
+        }
       });
+    } else {
+      alert('Please fill all required fields correctly');
     }
   }
 
@@ -85,6 +97,10 @@ export class BookingComponent implements OnInit {
   proceed(): void {
     if (this.paymentForm.valid) {
       this.confirmBooking = true;
+    } else {
+      console.log('Form is invalid:', this.paymentForm.errors);
+      this.paymentForm.markAllAsTouched();
+      alert('Please fill all required fields correctly');
     }
   }
 }
